@@ -1,27 +1,24 @@
 """
-Título de las series con promedio de edad de sus actores
+Título de las series con promedio de edad de sus actores y el numero de titulos que tiene esta serie
 """
 
 # Usamos los modelos ya definidos en `modelo.py`
-from modelo import Actor, Serie, engine
-from sqlalchemy import func
+from modelo import Serie, engine
 from sqlalchemy.orm import sessionmaker
 
 Session = sessionmaker(bind=engine)
 session = Session()
 
-# Usamos outerjoin para incluir series sin actores (promedio será None)
-resultados = (
-    session.query(Serie.titulo, func.avg(Actor.edad).label("promedio_edad"))
-    .outerjoin(Actor)
-    .group_by(Serie.titulo)
-    .all()
-)
+# Obtenemos todas las series
+series = session.query(Serie).all()
 
-for t, p in resultados:
+for serie in series:
+    p = serie.obtener_edad_promedio()
+    num_t = len(serie.actores)
+
     if p is None:
-        print(f"{t}: No tiene actores registrados")
+        print(f"{serie.titulo}: No tiene actores registrados")
     else:
-        print(f"{t}: {p:.2f} años (promedio)")
+        print(f"Serie: {serie.titulo}: {p:.2f} promedio años - {num_t} títulos")
 
 session.close()
