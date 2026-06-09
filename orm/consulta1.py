@@ -1,5 +1,5 @@
 """
-Título de las series con promedio de edad de sus actores y el numero de titulos que tiene esta serie
+Título de las series con promedio de edad de sus actores y el numero de premios que tiene cada serie
 """
 
 # Usamos los modelos ya definidos en `modelo.py`
@@ -14,11 +14,11 @@ series = session.query(Serie).all()
 
 for serie in series:
     p = serie.obtener_edad_promedio()
-    num_t = len(serie.actores)
+    num_p = serie.obtener_numero_premios()
 
     if p is None:
         print(f"{serie.titulo}: No tiene actores registrados")
     else:
-        print(f"Serie: {serie.titulo}: {p:.2f} promedio años - {num_t} títulos")
+        print(f"Serie: {serie.titulo} - {p:.2f} promedio años - {num_p} premios")
 
 session.close()
