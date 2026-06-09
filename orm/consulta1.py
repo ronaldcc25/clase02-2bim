@@ -18,10 +18,10 @@ resultados = (
     .all()
 )
 
-for titulo, promedio in resultados:
-    if promedio is None:
-        print(f"{titulo}: No tiene actores registrados")
+for t, p in resultados:
+    if p is None:
+        print(f"{t}: No tiene actores registrados")
     else:
-        print(f"{titulo}: {promedio:.2f} años (promedio)")
+        print(f"{t}: {p:.2f} años (promedio)")
 
 session.close()
